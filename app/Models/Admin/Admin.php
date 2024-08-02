@@ -45,7 +45,7 @@ class Admin extends Model
    * @param mixed $password
    * @return Admin
    */
-  public function new($name, $username, $password, $role)
+  public static function new($name, $username, $password, $role)
   {
     $admin = new Admin;
 

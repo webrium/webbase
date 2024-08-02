@@ -26,8 +26,37 @@ Route::group(
             
             Route::post('get-current', 'Admin/AuthController->currentAdmin');
             
-            Route::post('new', 'Admin/AdminController->createNewAdmin');
-
+            
             Route::post('update', 'Admin/AdminController->updateAdmin');
-    }
-);
+        }
+    );
+    
+
+    Route::group(
+        [
+            'prefix' => 'admin',
+            'middleware' => [
+                'checkAdminAuth',
+                'roleAdmin'
+                ]
+            ],
+            function () {
+                Route::post('new', 'Admin/AdminController->createNewAdmin');
+            }
+        );
+
+
+    Route::group(
+        [
+            'prefix' => 'admin',
+            'middleware' => [
+                'checkAdminAuth',
+                'roleAdmin',
+                'adminOtherThanMyself'
+                ]
+            ],
+            function () {
+                Route::post('remove', 'Admin/AdminController->remove');
+            }
+        );
+        

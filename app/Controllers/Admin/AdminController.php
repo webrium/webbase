@@ -13,10 +13,10 @@ class AdminController
     public function createNewAdmin()
     {
 
-        $role = roleAdmin();
-        if ($role['ok'] == false) {
-            return $role;
-        }
+        // $role = roleAdmin();
+        // if ($role['ok'] == false) {
+        //     return $role;
+        // }
 
         $form = new FormValidation;
         $form->field('name')->required()->min(3)->max(30)
@@ -35,7 +35,7 @@ class AdminController
 
         $new_admin = Admin::where('username', $username)->find();
 
-        if ($new_admin == false) {
+        if ($new_admin) {
             return ['ok' => false, 'message' => lang('message.duplicate_username')];
         }
 
@@ -91,5 +91,19 @@ class AdminController
         }
 
         return ['ok' => true];
+    }
+
+
+    public function remove(){
+
+        $admin_id = input('admin_id');
+
+        if($admin_id != Admin::current()->id){
+            Admin::where('id', $admin_id)->delete();
+            return ['ok'=>true];
+        }
+        else{
+            return ['ok'=>false, 'message'=>lang('message.not_access_op')];
+        }
     }
 }
