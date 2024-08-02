@@ -47,7 +47,9 @@ class AuthController
 
     public function checkAuth()
     {
-        return Admin::checkAuth();
+        $result = Admin::checkAuth();
+        
+        return $result;
     }
 
 

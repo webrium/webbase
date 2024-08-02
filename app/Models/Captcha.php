@@ -25,7 +25,7 @@ class Captcha extends Model
     $table->bigID();
     $table->string('phrase', 100);
     $table->string('ip', 200);
-    $table->time('last_created_datetime')->nullable();
+    $table->string('last_created_datetime',20)->nullable();
     $table->boolean('confirm')->default(0);
     $table->integer('edit_number')->default(0);
     $table->timestamps();

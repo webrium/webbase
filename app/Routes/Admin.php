@@ -17,12 +17,17 @@ Route::group(
     [
         'prefix' => 'admin',
         'middleware' => [
-            checkAdminAuth()
-        ]
-    ],
-    function () {
+            'checkAdminAuth'
+            ]
+        ],
+        function () {
+            
+            // Route::post('check-auth', 'Admin/AuthController->checkAuth');
+            
+            Route::post('get-current', 'Admin/AuthController->currentAdmin');
+            
+            Route::post('new', 'Admin/AdminController->createNewAdmin');
 
-        Route::post('check-auth', 'Admin/AuthController->checkAuth');
-        Route::post('get-current', 'Admin/AuthController->currentAdmin');
+            Route::post('update', 'Admin/AdminController->updateAdmin');
     }
 );

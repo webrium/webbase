@@ -19,8 +19,6 @@ class Admin extends Model
    */
   protected $table = 'admins';
 
-  protected $visible = ['id', 'username', 'token', 'secret', 'created_at', 'updated_at'];
-
   private static $admin = false;
 
 
@@ -30,6 +28,7 @@ class Admin extends Model
     $table->id();
     $table->string('username', 100);
     $table->string('password', 200);
+    $table->string('role', 10)->default('manager'); // admin|manager
     $table->string('last_login_ip', 50)->nullable();
     $table->dateTime('last_login_datetime')->nullable();
     $table->boolean('active')->default(true);
@@ -46,12 +45,14 @@ class Admin extends Model
    * @param mixed $password
    * @return Admin
    */
-  public function new($username, $password)
+  public function new($name, $username, $password, $role)
   {
     $admin = new Admin;
 
+    $admin->name = $name;
     $admin->username = $username;
     $admin->password = Hash::make($password);
+    $admin->role = $role;
     $admin->token = bin2hex(random_bytes(32));
     $admin->save();
 
@@ -74,13 +75,13 @@ class Admin extends Model
   public function insertMainAdmin()
   {
     if (env('insert_main_admin') == 'true') {
-      (new Admin)->new(env('main_admin_username'), env('main_admin_password'));
+      (new Admin)->new(env('main_admin_name'),env('main_admin_username'), env('main_admin_password'), 'admin');
     }
   }
 
 
   public static function auth($username, $password){
-    $admin = Admin::select('id', 'password')->where('username', $username)->find();
+    $admin = Admin::where('username', $username)->find();
 
     if($admin){
       $auth = Hash::check($password, $admin->password);
@@ -118,6 +119,8 @@ class Admin extends Model
       $jwt = new Jwt($secretKey);
       $auth_token = $jwt->generateToken(['id'=>$admin->id]);
 
+
+
       return['ok'=>true, 'auth_token'=>$auth_token];
     }
 
@@ -131,15 +134,14 @@ class Admin extends Model
 
 
   public static function checkAuth(){
-    $jwt_token = Header::getBearerToken();
+    $jwt_token = trim(Header::getBearerToken());
     $payload = Jwt::getPayload($jwt_token);
-
     if(isset($payload->id)){
-
+      
       $admin_id = $payload->id;
-
+      
       $admin = Admin::find($admin_id);
-
+      
       if($admin){
         $jwt = new Jwt(self::makeJwtSecretKey($admin, Http::ip()));
         self::$admin = $admin;
