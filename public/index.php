@@ -18,7 +18,7 @@ Debug::displayErrors(true);
 Directory::initDefaultStructure();
 
 // Load config
-File::source('config',['Config.php','DB.php']);
+File::source('config',['Config.php','DB.php', 'Middleware.php']);
 
 // load routes
 Route::source(['Web.php', 'Admin.php']);

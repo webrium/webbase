@@ -1,6 +1,28 @@
 <?php
 use Webrium\Route;
 
-Route::group(['prefix'=>'admin'], function(){
 
-});
+// without auth
+Route::group(
+    'admin',
+    function () {
+
+        Route::post('auth', 'Admin/AuthController->auth');
+    }
+);
+
+
+// with auth
+Route::group(
+    [
+        'prefix' => 'admin',
+        'middleware' => [
+            checkAdminAuth()
+        ]
+    ],
+    function () {
+
+        Route::post('check-auth', 'Admin/AuthController->checkAuth');
+        Route::post('get-current', 'Admin/AuthController->currentAdmin');
+    }
+);
