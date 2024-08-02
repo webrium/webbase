@@ -6,6 +6,9 @@ Route::setNotFoundRoutePage(function(){
 });
 
 Route::get('','IndexController->index');
-Route::post('captcha/check-ability','CaptchaController->checkingTheAbilityToCreateCaptcha');
-Route::get('captcha/show','CaptchaController->showNew');
+
+Route::group('captcha', function(){
+    Route::post('check-ability','CaptchaController->checkingTheAbilityToCreateCaptcha');
+    Route::get('show','CaptchaController->showNew');
+});
 
