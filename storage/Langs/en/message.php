@@ -5,4 +5,5 @@ return [
   'duplicate_username'=>'This username has already been used',
   'information_not_found'=>'No information found',
   'other_than_your_account'=>'You cannot perform this operation on your account',
+  'information_already_exists'=>'The information already exists',
 ];

@@ -43,3 +43,23 @@ Route : ``admin/new``\
 Type : post \
 Params : `name`, `username`, `password`, `admin_id`
 
+## Categoy
+
+### # Create a new category
+
+Route : ``admin/category/new`` \
+Type : post \
+Params : `title`, `link_to`
+
+### # Update a category
+
+Route : ``admin/category/update`` \
+Type : post \
+Params : `title`, `change`
+
+### # Remove a category
+
+Route : ``admin/category/remove`` \
+Type : post \
+Params : `id`
+

@@ -1,7 +1,7 @@
 <?php
 namespace App\Models;
 use App\Models\Admin\Admin;
-use App\Models\Ca;
+// use App\Models\Ca;
 
 class Init {
 
@@ -17,6 +17,9 @@ class Init {
         $admin->insertMainAdmin();
 
         (new Captcha)->createTable();
+        (new Category)->createTable();
+        (new Product)->createTable();
+        (new ProductContent)->createTable();
     }
 
 

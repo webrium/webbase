@@ -28,6 +28,14 @@ Route::group(
             
             
             Route::post('update', 'Admin/AdminController->updateAdmin');
+
+
+            /*
+            | Category Routes
+            */
+            Route::post('category/new', 'Admin/CategoryController->saveNew');
+            Route::post('category/update', 'Admin/CategoryController->update');
+            Route::post('category/remove', 'Admin/CategoryController->remove');
         }
     );
     
