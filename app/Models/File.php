@@ -4,7 +4,7 @@ namespace App\Models;
 use Foxdb\Model;
 use Foxdb\Schema;
 
-class Comments extends Model
+class File extends Model
 {
 
   /**

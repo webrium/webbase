@@ -62,7 +62,7 @@ class ProductController
         $product->active = $active;
         $product->save();
 
-        return ['ok' => true, 'product' => $product];
+        return ['ok' => true, 'product' => $product->toObject()];
     }
 
 
@@ -117,7 +117,7 @@ class ProductController
         $productContent->active = $active;
         $productContent->save();
 
-        return ['ok' => true, 'product_content' => $productContent];
+        return ['ok' => true, 'product_content' => $productContent->toObject()];
     }
 
     public function removeProductContent()
@@ -160,7 +160,7 @@ class ProductController
         $product_category->title = $category->title;
         $product_category->save();
 
-        return ['ok' => true, 'product_category' => $product_category];
+        return ['ok' => true, 'product_category' => $product_category->toObject()];
     }
 
 
@@ -169,7 +169,7 @@ class ProductController
      */
     public function removeProductCategory()
     {
-        $id = input('product_category_id');
+        $id = input('id');
 
         $row = ProductCategory::where('id', $id)->delete();
 

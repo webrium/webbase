@@ -93,3 +93,18 @@ It is better to disable the product instead of completely removing it. For this 
 Route : `admin/product/remove`  \
 Type : post \
 Params : id
+
+
+## Product category
+
+### # Add a category to product
+
+Route : `admin/product-category/save` \
+Type : post \
+Params : `product_id`, `category_id`
+
+### # Remove product category
+
+Route : `admin/product-category/remove` \
+Type : post \
+Params : `id`

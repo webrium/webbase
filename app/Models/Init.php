@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 use App\Models\Admin\Admin;
+use App\Models\File;
 // use App\Models\Ca;
 
 class Init {
@@ -20,6 +21,8 @@ class Init {
         (new Category)->createTable();
         (new Product)->createTable();
         (new ProductContent)->createTable();
+        (new ProductCategory)->createTable();
+        (new File)->createTable();
     }
 
 
