@@ -63,6 +63,8 @@ Route : ``admin/category/remove`` \
 Type : post \
 Params : `id`
 
+## Product
+
 ### # Add or update a product
 
 Route : `admin/product/save` \
