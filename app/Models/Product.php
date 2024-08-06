@@ -27,7 +27,6 @@ class Product extends Model
     $table->integer('show_price')->default(0);
     $table->string('image')->nullable();
     $table->integer('ages', 3);
-    $table->integer('producer_id')->nullable();
     $table->timestamps();
     $table->create();
 
