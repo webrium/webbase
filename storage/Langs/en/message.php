@@ -6,4 +6,6 @@ return [
   'information_not_found'=>'No information found',
   'other_than_your_account'=>'You cannot perform this operation on your account',
   'information_already_exists'=>'The information already exists',
+  'category_not_found'=>'Category not found',
+  'product_not_found'=>'Product not found',
 ];

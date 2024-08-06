@@ -6,4 +6,6 @@ return [
   'information_not_found'=>'اطلاعات یافت نشد',
   'other_than_your_account'=>'شما نمی توانید این عملیات را روی اکانت خود انجام دهید ',
   'information_already_exists'=>'اطلاعات از قبل وجود دارد',
+  'category_not_found'=>'دسته بندی یافت نشد',
+  'product_not_found'=>'محصول یافت نشد',
 ];

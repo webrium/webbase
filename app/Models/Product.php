@@ -25,23 +25,28 @@ class Product extends Model
     $table->text('attributes')->utf8()->nullable();
     $table->integer('price');
     $table->integer('show_price')->default(0);
-    $table->string('image');
+    $table->string('image')->nullable();
     $table->integer('ages', 3);
     $table->integer('producer_id')->nullable();
     $table->timestamps();
     $table->create();
+
+    $table->addColumn()->boolean('active')->after('producer_id')->change();
   }
 
-  public static function new($params){
+  public static function new($params)
+  {
     return self::insert($params);
   }
 
 
-  public function updateProduct($id, $params){
+  public function updateProduct($id, $params)
+  {
     return self::where('id', $id)->update($params);
   }
 
-  public function remove($id){
+  public function remove($id)
+  {
     self::where('id', $id)->delete();
   }
 
