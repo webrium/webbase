@@ -63,3 +63,33 @@ Route : ``admin/category/remove`` \
 Type : post \
 Params : `id`
 
+### # Add or update a product
+
+Route : `admin/product/save` \
+Type : post \
+Params\
+
+
+|Param|  Type  |Required|
+|-----| :----: |:------:|
+| id  |  int  |  No   |
+|title| string| Yes|
+|url  |string|Yes|
+|price|int|Yes|
+|active|int|Yes|
+|code |string|No|
+|description|string|No|
+|show_price|int|No|
+|image |string|No|
+|ages|int|No|
+
+Do not send the `id` parameter to add a new product 
+
+
+### # Remove a product
+
+It is better to disable the product instead of completely removing it. For this purpose, set the active field to 0
+
+Route : `admin/product/remove`  \
+Type : post \
+Params : id
