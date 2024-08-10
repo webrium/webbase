@@ -83,12 +83,12 @@ class ProductController
     {
         $form = new FormValidation;
         $form->field('id')->numeric();
-        $form->field('product_id')->min(3);
+        $form->field('product_id')->numeric();
         $form->field('content')->string()->min(3);
         $form->field('path')->string();
         $form->field('description')->string()->min(3);
         $form->field('type')->required()->string();
-        $form->field('active')->boolean();
+        $form->field('active')->required()->numeric();
 
         if ($form->isValid() == false) {
             return ['ok' => false, 'message' => $form->getFirstErrorMessage()];
@@ -101,15 +101,15 @@ class ProductController
         $path = input('path');
         $description = input('description');
         $type = input('type');
-        $active = input('active');
+        $active = input('active', 1);
 
         $productContent = ProductContent::find($id);
 
         if ($productContent == false) {
-            $productContent = new Product;
+            $productContent = new ProductContent;
         }
 
-        $productContent->producer_id = $product_id;
+        $productContent->product_id = $product_id;
         $productContent->content = $content;
         $productContent->path = $path;
         $productContent->description = $description;
