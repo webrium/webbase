@@ -19,6 +19,7 @@ class Comments extends Model
     $table = new Schema($this->table);
     $table->id();
     $table->integer('user_id');
+    $table->string('type')->default('product');
     $table->text('comment');
     $table->integer('product_id');
     $table->boolean('confirm')->default(0);
