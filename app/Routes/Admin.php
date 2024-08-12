@@ -22,7 +22,7 @@ Route::group(
     ],
     function () {
 
-        // Route::post('check-auth', 'Admin/AuthController->checkAuth');
+        Route::post('check-auth', 'Admin/AuthController->checkAuth');
     
         Route::post('get-current', 'Admin/AuthController->currentAdmin');
 

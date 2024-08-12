@@ -6,6 +6,10 @@ use Webrium\FormValidation;
 
 function checkAdminAuth(){
     $result = Admin::checkAuth();
+    if($result == false){
+        App::ReturnData(['ok'=>false, 'message'=>'pleas auth']);
+        die;
+    }
     return $result;
 }
 
