@@ -23,13 +23,13 @@ class Category extends Model
     $table->id();
     $table->string('title', 140)->utf8();
     $table->string('url', 190)->utf8();
-    $table->integer('link_to')->default(0);
+    $table->integer('parent_id')->default(0);
     $table->boolean('active')->default(1);
     $table->timestamps();
     $table->create();
   }
 
-  public static function new($title, $link_to = 0)
+  public static function store($id, $title, $url,  $parent_id = 0)
   {
 
     $category = Category::where('title', $title)->find();
@@ -38,11 +38,16 @@ class Category extends Model
       return ['ok' => false, 'message' => lang('message.information_already_exists')];
     }
 
-    $category = new Category;
+    if($id == 0){
+      $category = new Category;
+    }
+    else{
+      $category = Category::find($id);
+    }
 
     $category->title = $title;
-    $category->url = str_replace(' ', '-', $title);
-    $category->link_to = $link_to;
+    $category->url = $url;
+    $category->parent_id = $parent_id;
     $category->save();
 
     return ['ok' => true];

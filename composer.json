@@ -9,7 +9,8 @@
     "phpmailer/phpmailer": "~6.1",
     "webrium/foxdb": "^3.0.0",
     "webrium/console": "^1.0.1",
-    "webrium/captcha": "dev-master"
+    "webrium/captcha": "dev-master",
+    "webrium/pdate": "dev-main"
   },
   "license": "MIT",
   "authors": [

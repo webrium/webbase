@@ -9,17 +9,22 @@ class CategoryController
 
     public function saveNew()
     {
+        $id = input('id');
         $title = input('title');
-        $link_to = input('link_to', 0);
+        $url = input('url');
+        $parent_id = input('parent_id', 0);
 
         $form = new FormValidation;
         $form->field('title')->required()->min(3);
+        $form->field('url')->required()->min(3);
+        $form->field('parent_id')->required()->numeric();
+        $form->field('id')->numeric();
 
         if ($form->isValid() == false) {
             return ['ok' => false, 'message' => $form->getFirstErrorMessage()];
         }
 
-        return Category::new($title, $link_to);
+        return Category::store($id, $title, $url, $parent_id);
     }
 
 
@@ -46,6 +51,37 @@ class CategoryController
     }
 
 
+    public function getList(){
+        $search = input('search', '');
+        $order = input('order', 'desc');
+        $id = input('id', 0);
 
+        $category = Category::where('id', $id)->first();
+
+        if($order == 'desc'){
+            $list = Category::latest();
+        }
+        else{
+            $list = Category::oldest();
+        }
+
+        if($category){
+            $list->where('parent_id', $category->id);
+        }
+        else{
+            $list->where('parent_id', 0);
+        }
+
+
+        if(empty($search)==false){
+            $list = $list->like('title', "%$search%");
+        }
+        
+        return [
+            'ok'=>true,
+            'list'=>$list->paginate(),
+            'category'=>$category,
+        ];
+    }
 
 }

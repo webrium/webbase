@@ -5,6 +5,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductContent;
+use App\Models\ProductType;
 use Webrium\FormValidation;
 
 class ProductController
@@ -174,6 +175,88 @@ class ProductController
         $row = ProductCategory::where('id', $id)->delete();
 
         return ['ok' => true, 'row' => $row];
+    }
+
+
+
+    public function saveProductType()
+    {
+        $form = new FormValidation;
+        $form->field('id')->numeric();
+        $form->field('title')->string()->min(3);
+        $form->field('label')->string()->min(3);
+
+
+        if ($form->isValid() == false) {
+            return ['ok' => false, 'message' => $form->getFirstErrorMessage()];
+        }
+
+
+        $id = input('id', 0);
+        $title = input('title');
+        $label = input('label');
+
+
+        $productType = ProductType::find($id);
+
+        if ($productType == false) {
+            $productType = new ProductType;
+        }
+
+        $productType->title = $title;
+        $productType->label = $label;
+        $productType->save();
+
+        return ['ok' => true, 'product_content' => $productType->toObject()];
+    }
+
+    public function removeProductType()
+    {
+        $id = input('id');
+        ProductType::where('id', $id)->delete();
+        return ['ok' => true];
+    }
+
+
+    public function productTypes(){
+        $search = input('search', '');
+        $order = input('order', 'desc');
+
+        if($order == 'desc'){
+            $types = ProductType::latest();
+        }
+        else{
+            $types = ProductType::oldest();
+        }
+
+        if(empty($search)==false){
+            $types = $types->like('title', "%$search%");
+        }
+        
+        return [
+            'ok'=>true,
+            'types'=>$types->paginate(),
+        ];
+    }
+    public function productCategorys(){
+        $search = input('search', '');
+        $order = input('order', 'desc');
+
+        if($order == 'desc'){
+            $categorys = ProductCategory::latest();
+        }
+        else{
+            $categorys = ProductCategory::oldest();
+        }
+
+        if(empty($search)==false){
+            $categorys = $categorys->like('title', "%$search%");
+        }
+        
+        return [
+            'ok'=>true,
+            'categorys'=>$categorys->paginate(),
+        ];
     }
 
 

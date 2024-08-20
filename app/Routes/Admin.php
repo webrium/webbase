@@ -33,8 +33,8 @@ Route::group(
         /*
         | Category Routes
         */
-        Route::post('category/new', 'Admin/CategoryController->saveNew');
-        Route::post('category/update', 'Admin/CategoryController->update');
+        Route::post('category/save', 'Admin/CategoryController->saveNew');
+        Route::post('categorys', 'Admin/CategoryController->getList');
         Route::post('category/remove', 'Admin/CategoryController->remove');
 
 
@@ -61,6 +61,21 @@ Route::group(
         */
         Route::post('product-category/save', 'Admin/ProductController->saveProductCategory');
         Route::post('product-category/remove', 'Admin/ProductController->removeProductCategory');
+-
+
+        /*
+        | Product Type Routes
+        */
+        Route::post('product-type/save', 'Admin/ProductController->saveProductType');
+        Route::post('product-type/remove', 'Admin/ProductController->removeProductType');
+
+        Route::post('product-types', 'Admin/ProductController->productTypes');
+        Route::post('product-categorys', 'Admin/ProductController->productCategorys');
+
+
+        // save new file
+        Route::post('file/save', 'Admin/FileController->saveFile');
+        // Route::
     }
 );
 
