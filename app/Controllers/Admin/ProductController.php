@@ -79,6 +79,19 @@ class ProductController
     }
 
 
+    public function getProductInfo(){
+        $id = input('id', 0);
+
+        $product = Product::find($id);
+        $product_types = ProductType::latest()->get();
+
+        return [
+            'ok'=>true,
+            'product'=>$product,
+            'product_types'=>$product_types,
+        ];
+    }
+
 
     public function saveProductContent()
     {

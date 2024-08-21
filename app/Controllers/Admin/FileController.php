@@ -37,7 +37,7 @@ class FileController
         $file->save();
 
         if ($file->status()) {
-            File::new($file->name(), $save_path, $ext);
+            File::new($file->name(), $save_dir, $ext);
         }
 
 

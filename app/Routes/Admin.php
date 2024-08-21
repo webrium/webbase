@@ -44,6 +44,7 @@ Route::group(
 
         Route::post('product/save', 'Admin/ProductController->save');
         Route::post('product/remove', 'Admin/ProductController->remove');
+        Route::post('product/info', 'Admin/ProductController->getProductInfo');
 
 
 

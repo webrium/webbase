@@ -29,7 +29,7 @@ class Category extends Model
     $table->create();
   }
 
-  public static function store($id, $title, $url,  $parent_id = 0)
+  public static function store($id, $title, $url, $parent_id = 0)
   {
 
     $category = Category::where('title', $title)->find();
@@ -38,10 +38,9 @@ class Category extends Model
       return ['ok' => false, 'message' => lang('message.information_already_exists')];
     }
 
-    if($id == 0){
+    if ($id == 0) {
       $category = new Category;
-    }
-    else{
+    } else {
       $category = Category::find($id);
     }
 
@@ -60,24 +59,48 @@ class Category extends Model
 
     $category = Category::where('title', $title)->find();
 
-    if($category){
+    if ($category) {
       $category->title = $change;
       $category->url = str_replace(' ', '-', $change);
       $category->save();
 
-      return ['ok'=>true];
-    }
-    else{
-      return['ok'=>false, 'message'=>lang('message.information_not_found')];
+      return ['ok' => true];
+    } else {
+      return ['ok' => false, 'message' => lang('message.information_not_found')];
     }
 
   }
 
 
-  public static function removeCategory($id){
+  public static function removeCategory($id)
+  {
 
-    return['ok'=>Category::where('id' ,$id)->delete()];
+    return ['ok' => Category::where('id', $id)->delete()];
   }
 
+
+  public static function getTree($category)
+  {
+    $tree = [$category];
+
+    if ($category) {
+
+      while ($category->parent_id > 0) {
+        $category = Category::select('id', 'title', 'url', 'parent_id')->where('id', $category->parent_id)->first();
+
+        if ($category) {
+          $tree[] = $category;
+        }
+        else{
+          break;
+        }
+        
+      }
+
+    }
+    $tree[] = ['id'=>0, 'title'=>'منو های اصلی', 'parent_id'=>0];
+
+    return array_reverse($tree);
+  }
 
 }

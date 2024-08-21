@@ -50,6 +50,8 @@ class CategoryController
         return Category::removeCategory($id);
     }
 
+    
+
 
     public function getList(){
         $search = input('search', '');
@@ -76,9 +78,12 @@ class CategoryController
         if(empty($search)==false){
             $list = $list->like('title', "%$search%");
         }
+
+        $tree = Category::getTree($category);
         
         return [
             'ok'=>true,
+            'tree'=>$tree,
             'list'=>$list->paginate(),
             'category'=>$category,
         ];

@@ -21,7 +21,7 @@ class File extends Model
     $table = new Schema($this->table);
     $table->id();
     $table->string('name');
-    $table->string('path');
+    $table->string('url');
     $table->string('type', 20);
     $table->timestamps();
     $table->create();
@@ -38,11 +38,11 @@ class File extends Model
    * @param string $status [permanent|temporary]
    * @return void
    */
-  public static function new(string $name, string $path, string $type, string $status = 'temporary')
+  public static function new(string $name, string $url, string $type, string $status = 'temporary')
   {
     $file = new File;
     $file->name = $name;
-    $file->path = $path;
+    $file->url = $url;
     $file->type = $type;
     $file->status = $status;
     $file->save();
