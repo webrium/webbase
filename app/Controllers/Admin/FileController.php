@@ -36,12 +36,15 @@ class FileController
 
         $file->save();
 
+        $file_id = 0;
+
         if ($file->status()) {
-            File::new($file->name(), $save_dir, $ext);
+            $upload_file = File::new($file->name(), $save_dir, $ext);
+            $file_id = $upload_file->id;
         }
 
 
-        return ['ok' => $file->status(), 'name' => $file->name(), 'path' => $save_dir];
+        return ['ok' => $file->status(), 'name' => $file->name(), 'path' => $save_dir, 'id'=>$file_id];
     }
 
 

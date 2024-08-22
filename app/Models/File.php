@@ -38,7 +38,7 @@ class File extends Model
    * @param string $status [permanent|temporary]
    * @return void
    */
-  public static function new(string $name, string $url, string $type, string $status = 'temporary')
+  public static function new(string $name, string $url, string $type, string $status = 'temporary'):File
   {
     $file = new File;
     $file->name = $name;
@@ -48,6 +48,8 @@ class File extends Model
     $file->save();
 
     self::cleanUp();
+
+    return $file;
   }
 
 

@@ -23,14 +23,14 @@ class Product extends Model
     $table->string('code', 50)->nullable();
     $table->text('description')->utf8mb4()->nullable();
     $table->text('attributes')->utf8()->nullable();
-    $table->integer('price');
-    $table->integer('show_price')->default(0);
-    $table->string('image')->nullable();
+    $table->integer('image_id')->nullable();
     $table->integer('ages', 3);
+    $table->integer('type_id')->nullable();
+    $table->integer('category_id')->nullable();
     $table->timestamps();
     $table->create();
 
-    $table->addColumn()->boolean('active')->after('producer_id')->change();
+    $table->addColumn()->boolean('active')->after('ages')->change();
   }
 
   public static function new($params)

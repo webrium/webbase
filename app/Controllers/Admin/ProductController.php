@@ -5,6 +5,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\ProductContent;
+use App\Models\ProductInventory;
 use App\Models\ProductType;
 use Webrium\FormValidation;
 
@@ -13,57 +14,67 @@ class ProductController
 
     public function save()
     {
-        $form = new FormValidation;
+
+        $product_input = input('product');
+        $inventories_input = input('inventories');
+
+
+        // return input();
+        $form = new FormValidation($product_input);
         $form->field('id')->numeric();
         $form->field('title')->required()->min(3);
         $form->field('url')->required()->min(3);
         $form->field('code')->string()->min(3);
         $form->field('description')->string()->min(3);
-        $form->field('price')->required()->numeric();
-        $form->field('show_price')->numeric();
-        $form->field('image')->string();
+        $form->field('image_id')->numeric();
         $form->field('ages')->numeric();
-        $form->field('producer_id')->numeric();
-        $form->field('active')->required()->numeric();
+        // $form->field('producer_id')->numeric();
+        // $form->field('active')->required()->();
 
 
         if ($form->isValid() == false) {
             return ['ok' => false, 'message' => $form->getFirstErrorMessage()];
         }
 
-        $id = input('id', 0);
-        $title = input('title');
-        $url = input('url');
-        $code = input('code');
-        $description = input('description');
-        $attributes = input('attributes');
-        $price = input('price');
-        $show_price = input('show_price', 0);
-        $image = input('image');
-        $ages = input('ages');
-        $producer_id = input('producer_id');
-        $active = input('active', 0);
 
-        $product = Product::find($id);
+        $product = Product::find($product_input['id']??0);
 
         if ($product == false) {
             $product = new Product;
         }
 
-        $product->title = $title;
-        $product->url = $url;
-        $product->code = $code;
-        $product->description = $description;
-        $product->attributes = $attributes;
-        $product->price = $price;
-        $product->show_price = $show_price;
-        $product->image = $image;
-        $product->ages = $ages;
-        $product->producer_id = $producer_id;
-        $product->active = $active;
+        foreach($product_input as $param_name=> $value){
+
+            if(isset($param_name['id'])==false){
+                $product->{$param_name} = $value;
+            }
+        }
+
         $product->save();
 
-        return ['ok' => true, 'product' => $product->toObject()];
+        foreach($inventories_input as $inventory){
+            if(isset($inventory['id'])){
+                $product_inventory = ProductInventory::find($inventory['id']);
+            }
+            else{
+                $product_inventory = new ProductInventory;
+                $product_inventory->product_id = $product->id;
+            }
+
+            foreach($inventory as $param_name=> $value){
+
+                if(isset($param_name['id'])==false && isset($param_name['product_id'])==false){
+                    $product_inventory->{$param_name} = $value;
+                }
+            }
+
+    
+            $product_inventory->save();
+        }
+
+
+
+        return ['ok' => true,];
     }
 
 
@@ -79,16 +90,17 @@ class ProductController
     }
 
 
-    public function getProductInfo(){
+    public function getProductInfo()
+    {
         $id = input('id', 0);
 
         $product = Product::find($id);
         $product_types = ProductType::latest()->get();
 
         return [
-            'ok'=>true,
-            'product'=>$product,
-            'product_types'=>$product_types,
+            'ok' => true,
+            'product' => $product,
+            'product_types' => $product_types,
         ];
     }
 
@@ -157,7 +169,7 @@ class ProductController
             return ['ok' => false, 'message' => lang('message.category_not_found')];
         }
 
-        if(Product::where('id', $product_id)->doesntExist()){
+        if (Product::where('id', $product_id)->doesntExist()) {
             return ['ok' => false, 'message' => lang('message.product_not_found')];
         }
 
@@ -231,44 +243,44 @@ class ProductController
     }
 
 
-    public function productTypes(){
+    public function productTypes()
+    {
         $search = input('search', '');
         $order = input('order', 'desc');
 
-        if($order == 'desc'){
+        if ($order == 'desc') {
             $types = ProductType::latest();
-        }
-        else{
+        } else {
             $types = ProductType::oldest();
         }
 
-        if(empty($search)==false){
+        if (empty($search) == false) {
             $types = $types->like('title', "%$search%");
         }
-        
+
         return [
-            'ok'=>true,
-            'types'=>$types->paginate(),
+            'ok' => true,
+            'types' => $types->paginate(),
         ];
     }
-    public function productCategorys(){
+    public function productCategorys()
+    {
         $search = input('search', '');
         $order = input('order', 'desc');
 
-        if($order == 'desc'){
+        if ($order == 'desc') {
             $categorys = ProductCategory::latest();
-        }
-        else{
+        } else {
             $categorys = ProductCategory::oldest();
         }
 
-        if(empty($search)==false){
+        if (empty($search) == false) {
             $categorys = $categorys->like('title', "%$search%");
         }
-        
+
         return [
-            'ok'=>true,
-            'categorys'=>$categorys->paginate(),
+            'ok' => true,
+            'categorys' => $categorys->paginate(),
         ];
     }
 

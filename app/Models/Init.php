@@ -33,6 +33,7 @@ class Init
         (new User)->createTable();
         (new User)->createTable();
         (new ProductType)->createTable();
+        (new ProductInventory)->createTable();
     }
 
     public static function setSiteControlAccess($domain = '*')
