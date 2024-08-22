@@ -3,6 +3,7 @@ namespace App\Controllers\Admin;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\File;
 use App\Models\ProductCategory;
 use App\Models\ProductContent;
 use App\Models\ProductInventory;
@@ -18,6 +19,8 @@ class ProductController
         $product_input = input('product');
         $inventories_input = input('inventories');
 
+        $new = false;
+
 
         // return input();
         $form = new FormValidation($product_input);
@@ -28,8 +31,7 @@ class ProductController
         $form->field('description')->string()->min(3);
         $form->field('image_id')->numeric();
         $form->field('ages')->numeric();
-        // $form->field('producer_id')->numeric();
-        // $form->field('active')->required()->();
+        $form->field('active')->required()->numeric();
 
 
         if ($form->isValid() == false) {
@@ -41,16 +43,23 @@ class ProductController
 
         if ($product == false) {
             $product = new Product;
+            $new = true;
         }
 
-        foreach($product_input as $param_name=> $value){
-
-            if(isset($param_name['id'])==false){
-                $product->{$param_name} = $value;
-            }
-        }
+        $product->title = $product_input['title'];
+        $product->url = $product_input['url'];
+        $product->image_id = $product_input['image_id'];
+        $product->description = $product_input['description'];
+        $product->ages = $product_input['ages'];
+        $product->type_id = $product_input['type_id'];
+        $product->category_id = $product_input['category_id'];
+        $product->active = $product_input['active'];
 
         $product->save();
+
+        if($product->image_id>0){
+            File::setPermanentStatus($product->image_id);
+        }
 
         foreach($inventories_input as $inventory){
             if(isset($inventory['id'])){
@@ -74,7 +83,7 @@ class ProductController
 
 
 
-        return ['ok' => true,];
+        return ['ok' => true,'new'=>$new, 'product'=>$product->toObject()];
     }
 
 
@@ -95,12 +104,22 @@ class ProductController
         $id = input('id', 0);
 
         $product = Product::find($id);
+        $inventories = [];
+        $category = false;
+
+        if($product){
+            File::makeImageUrlField($product);
+            $inventories = ProductInventory::where('product_id', $product->id)->get();
+            $category = Category::where('id', $product->category_id)->first();
+        }
         $product_types = ProductType::latest()->get();
 
         return [
             'ok' => true,
-            'product' => $product,
+            'product' => $product->toObject(),
+            'inventories'=>$inventories,
             'product_types' => $product_types,
+            'category'=>$category,
         ];
     }
 

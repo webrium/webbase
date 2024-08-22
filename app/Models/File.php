@@ -99,6 +99,11 @@ class File extends Model
     return false;
   }
 
+  public static function makeImageUrlField(&$item){
+    $file = File::find($item->image_id);
+    $item->image = "$file->url/$file->name";
+  }
+
 
 
 }
