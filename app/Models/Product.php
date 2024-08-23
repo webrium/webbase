@@ -31,6 +31,9 @@ class Product extends Model
     $table->create();
 
     $table->addColumn()->boolean('active')->after('ages')->change();
+    $table->addColumn()->string('meta_title')->nullable()->after('active')->change();
+    $table->addColumn()->string('meta_description')->nullable()->after('meta_title')->change();
+    $table->addColumn()->string('meta_keywords')->nullable()->after('meta_description')->change();
   }
 
   public static function new($params)

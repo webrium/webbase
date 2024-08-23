@@ -31,7 +31,7 @@ class ProductController
         $form->field('description')->string()->min(3);
         $form->field('image_id')->numeric();
         $form->field('ages')->numeric();
-        $form->field('active')->required()->numeric();
+        // $form->field('active')->required()->numeric();
 
 
         if ($form->isValid() == false) {
@@ -54,6 +54,9 @@ class ProductController
         $product->type_id = $product_input['type_id'];
         $product->category_id = $product_input['category_id'];
         $product->active = $product_input['active'];
+        $product->meta_title = $product_input['meta_title']??'';
+        $product->meta_description = $product_input['meta_description']??'';
+        $product->meta_keywords = $product_input['meta_keywords']??'';
 
         $product->save();
 
@@ -81,6 +84,27 @@ class ProductController
             $product_inventory->save();
         }
 
+        $contents = input('contents');
+
+        foreach($contents as $content){
+            if(isset($content['id'])){
+                $product_content = ProductContent::find($content['id']);
+            }
+            else{
+                $product_content = new ProductContent;
+                $product_content->product_id = $product->id;
+            }
+
+            $product_content->content = $content['content']??'';
+            $product_content->path = $content['path']??'';
+            $product_content->json = $content['json']??'{}';
+            $product_content->type = $content['type']??'';
+            $product_content->active = $content['active']??true;
+
+    
+            $product_content->save();
+        }
+
 
 
         return ['ok' => true,'new'=>$new, 'product'=>$product->toObject()];
@@ -88,6 +112,11 @@ class ProductController
 
 
 
+    public function removeIntentory(){
+        $id = input('id');
+        ProductInventory::where('id', $id)->delete();
+        return['ok'=>true];
+    }
 
 
     public function remove()
@@ -103,24 +132,42 @@ class ProductController
     {
         $id = input('id', 0);
 
-        $product = Product::find($id);
+        $product = Product::where('id',$id)->first();
         $inventories = [];
         $category = false;
+        $contents = [];
 
         if($product){
             File::makeImageUrlField($product);
             $inventories = ProductInventory::where('product_id', $product->id)->get();
             $category = Category::where('id', $product->category_id)->first();
+            $contents = ProductContent::where('product_id', $product->id)->get();
         }
         $product_types = ProductType::latest()->get();
 
         return [
             'ok' => true,
-            'product' => $product->toObject(),
+            'product' => $product,
             'inventories'=>$inventories,
             'product_types' => $product_types,
             'category'=>$category,
+            'contents'=>$contents
         ];
+    }
+
+    public function productList(){
+        $search = input('search');
+        $order = input('order', 'desc');
+
+        $list = Product::orderBy('id', $order);
+
+        if(empty($search) == false){
+            $list->like("title", "%$search%");
+        }
+
+        $list = $list->paginate();
+
+        return['ok'=>true, 'list'=>$list];
     }
 
 

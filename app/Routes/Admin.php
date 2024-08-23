@@ -47,6 +47,8 @@ Route::group(
         Route::post('product/info', 'Admin/ProductController->getProductInfo');
 
 
+        Route::post('product-inventory/remove', 'Admin/ProductController->removeIntentory');
+        Route::post('products', 'Admin/ProductController->productList');
 
         /*
         | Product Content Routes
