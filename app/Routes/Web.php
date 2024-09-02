@@ -12,3 +12,8 @@ Route::group('captcha', function(){
     Route::get('show','CaptchaController->showNew');
 });
 
+
+Route::group('product', function(){
+    Route::get('info', 'User/ProductController->productInfo');
+});
+

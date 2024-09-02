@@ -22,7 +22,7 @@ class ProductContent extends Model
     $table->string('type', 50)->utf8()->default('image');
     $table->string('content', 190)->utf8mb4();
     $table->string('path')->utf8()->nullable();
-    $table->text('json')->utf8()->nullable();
+    $table->text('text')->utf8()->nullable();
     $table->boolean('active')->default(1);
     $table->timestamps();
     $table->create();

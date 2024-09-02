@@ -74,7 +74,7 @@ class File extends Model
     return count($list);
   }
 
-  public static function deleteFile(File $file){
+  public static function deleteFile(File|\stdClass $file){
       // File::where('id', $file->id)->delete();
       // Fs::delete($file->path);
   }

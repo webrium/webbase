@@ -51,12 +51,23 @@ class ProductController
         $product->image_id = $product_input['image_id'];
         $product->description = $product_input['description'];
         $product->ages = $product_input['ages'];
-        $product->type_id = $product_input['type_id'];
-        $product->category_id = $product_input['category_id'];
-        $product->active = $product_input['active'];
+        $product->type_id = $product_input['type_id']??0;
+        $product->category_id = $product_input['category_id']??0;
+        $product->active = $product_input['active']??0;
         $product->meta_title = $product_input['meta_title']??'';
         $product->meta_description = $product_input['meta_description']??'';
         $product->meta_keywords = $product_input['meta_keywords']??'';
+        $product->code = $product_input['code']??'';
+
+        if(empty($product_input['code'])===true){
+            $latest_product = Product::latest()->first();
+            if($latest_product){
+                $product->code = $latest_product->code + 1;
+            }
+            else{
+                $product->code = 111;
+            }
+        }
 
         $product->save();
 
@@ -97,7 +108,7 @@ class ProductController
 
             $product_content->content = $content['content']??'';
             $product_content->path = $content['path']??'';
-            $product_content->json = $content['json']??'{}';
+            $product_content->text = $content['text']??'{}';
             $product_content->type = $content['type']??'';
             $product_content->active = $content['active']??true;
 

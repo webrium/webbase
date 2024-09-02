@@ -22,7 +22,7 @@ class ProductInventory extends Model
     $table->string('title');
     $table->string('type', 50)->nullable();
     $table->string('type_value')->nullable();
-    $table->string('amount', 140)->default(0);
+    $table->integer('amount')->default(0);
     $table->integer('price')->nullable();
     $table->integer('show_price');
     $table->text('images')->nullable()->utf8();

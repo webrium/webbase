@@ -24,7 +24,7 @@ class FileController
         $ext = $file->extension();
 
         $file->path($save_path);
-        if (in_array($ext, ['png', 'jpg'])) {
+        if (in_array($ext, ['png', 'jpg', 'webp'])) {
             $file->maxSize(1024);
         } else {
             $file->maxSize(1024 * 50);
