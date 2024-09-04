@@ -3,6 +3,9 @@ namespace App\Models;
 
 use Foxdb\Model;
 use Foxdb\Schema;
+use Webrium\Header;
+use Webrium\Http;
+use Webrium\Jwt;
 
 class User extends Model{
 
@@ -12,6 +15,9 @@ class User extends Model{
   * @var string
   */
   protected $table = 'users';
+
+
+  public static $user = false;
 
 
   public function createTable(){
@@ -27,10 +33,54 @@ class User extends Model{
     $table->string('postal_code')->nullable();
     $table->string('city')->nullable();
     $table->text('address')->nullable();
+    $table->string('password');
+    $table->string('token', 100);
     $table->timestamps();
     $table->create();
 
   }
 
+  protected static function makeJwtSecretKey($user, $ip){
+    return $user->token."_$user->secret"."_$ip";
+  }
 
+  public static function getAuthToken($user){
+    
+
+      $ip = Http::ip();
+
+      $secretKey = self::makeJwtSecretKey($user, $ip);
+      
+      $jwt = new Jwt($secretKey);
+      $auth_token = $jwt->generateToken(['id'=>$user->id]);
+
+
+
+      return $auth_token;
+    
+  }
+
+
+  public static function checkAuth(){
+
+    $jwt_token = trim(Header::getBearerToken());
+
+    $payload = Jwt::getPayload($jwt_token);
+
+    if(isset($payload->id)){
+      
+      $admin_id = $payload->id;
+      
+      $user = User::find($admin_id);
+      
+      if($user){
+        $jwt = new Jwt(self::makeJwtSecretKey($user, Http::ip()));
+        self::$user = $user;
+        return $jwt->verifyToken($jwt_token)?true:false;
+      }
+
+    }
+
+    return false;
+  }
 }

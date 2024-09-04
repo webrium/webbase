@@ -17,3 +17,9 @@ Route::group('product', function(){
     Route::get('info', 'User/ProductController->productInfo');
 });
 
+Route::group('auth', function(){
+    Route::post('new/user', 'User/UserController->register');
+    Route::post('code/confirm', 'User/UserController->confirmMobileCode');
+    Route::post('login', 'User/UserController->login');
+});
+

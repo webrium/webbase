@@ -21,5 +21,5 @@ Directory::initDefaultStructure();
 File::source('config',['Config.php','DB.php', 'Middleware.php']);
 
 // load routes
-Route::source(['Web.php', 'Admin.php']);
+Route::source(['Web.php','User.php', 'Admin.php']);
 Route::run();

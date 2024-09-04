@@ -1201,16 +1201,16 @@
         },
         {
             "name": "webrium/foxdb",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webrium/foxdb.git",
-                "reference": "84571790d9aeb48833de941054ab72b869e32fea"
+                "reference": "bbbc51dab827d65e98446a36ed68394edb654657"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webrium/foxdb/zipball/84571790d9aeb48833de941054ab72b869e32fea",
-                "reference": "84571790d9aeb48833de941054ab72b869e32fea",
+                "url": "https://api.github.com/repos/webrium/foxdb/zipball/bbbc51dab827d65e98446a36ed68394edb654657",
+                "reference": "bbbc51dab827d65e98446a36ed68394edb654657",
                 "shasum": ""
             },
             "require": {
@@ -1239,9 +1239,9 @@
             "description": "Foxdb query builder",
             "support": {
                 "issues": "https://github.com/webrium/foxdb/issues",
-                "source": "https://github.com/webrium/foxdb/tree/3.0.0"
+                "source": "https://github.com/webrium/foxdb/tree/3.0.1"
             },
-            "time": "2024-07-15T10:40:17+00:00"
+            "time": "2024-09-02T08:00:32+00:00"
         },
         {
             "name": "webrium/pdate",
@@ -1293,7 +1293,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "botfire/botfire": 0,
-        "webrium/captcha": 20
+        "webrium/captcha": 20,
+        "webrium/pdate": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

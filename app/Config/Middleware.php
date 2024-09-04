@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Admin\Admin;
+use App\Models\User;
 use Webrium\App;
 use Webrium\FormValidation;
 
@@ -44,4 +45,16 @@ function adminOtherThanMyself(){
     }
 
     return true;
+}
+
+
+
+function checkUserAuth(){
+    $result = User::checkAuth();
+    
+    if($result == false){
+        App::ReturnData(['ok'=>false, 'message'=>'pleas auth']);
+        die;
+    }
+    return $result;
 }
