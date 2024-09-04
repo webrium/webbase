@@ -8,7 +8,7 @@ use Webrium\FormValidation;
 function checkAdminAuth(){
     $result = Admin::checkAuth();
     if($result == false){
-        App::ReturnData(['ok'=>false, 'message'=>'pleas auth']);
+        App::ReturnData(['ok'=>false, 'message'=>'لطفا ابتدا وارد حساب کاربری خود شوید']);
         die;
     }
     return $result;

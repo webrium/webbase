@@ -41,7 +41,7 @@ class User extends Model{
   }
 
   protected static function makeJwtSecretKey($user, $ip){
-    return $user->token."_$user->secret"."_$ip";
+    return $user->token."_$ip";
   }
 
   public static function getAuthToken($user){

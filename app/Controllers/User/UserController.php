@@ -111,7 +111,7 @@ class UserController
         }
 
 
-        $user = User::where('mobile', $mobile)->first();
+        $user = User::select('id', 'name', 'mobile','mobile_confirm', 'password', 'token')->where('mobile', $mobile)->first();
 
         if($user && $user->mobile_confirm == 0){
             return['ok'=>false, 'confrim'=>false];
@@ -119,7 +119,9 @@ class UserController
 
         if($user && Hash::check($password, $user->password)){
             $auth_token = User::getAuthToken($user);
-            return ['ok'=>true, 'login'=>true, 'auth_token'=>$auth_token];
+            unset($user->password);
+            unset($user->token);
+            return ['ok'=>true,'user'=>$user, 'login'=>true, 'auth_token'=>$auth_token];
         }
 
         return['ok'=>false, 'message'=>'شماره همراه یا رمزعبور وارد شده اشتباه است'];
