@@ -8,8 +8,8 @@ class Sms
 {
   public static function sendConfrimMessage($mobile){
     return Http::post('https://raygansms.com/AutoSendCode.ashx',[
-      'UserName'=> 'benyaminpm',
-      'Password'=> '10203040',
+      'UserName'=> env('SMS_USERNAME'),
+      'Password'=> env('SMS_PASSWORD'),
       'Mobile'=> $mobile,
       'Footer'=> "Kamman",
     ]);
@@ -19,8 +19,8 @@ class Sms
 
   public static function configmCode($mobile, $code){
     return Http::post('https://raygansms.com/CheckSendCode.ashx', [
-      'UserName'=>'benyaminpm',
-      'Password'=>'10203040',
+      'UserName'=>env('SMS_USERNAME'),
+      'Password'=>env('SMS_PASSWORD'),
       'Mobile'=>$mobile,
       'Code'=>$code,
     ]);
