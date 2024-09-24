@@ -41,11 +41,11 @@ class UserController
         }
 
         if(User::where('code', $code)->exists()){
-            return['ok'=>false, 'message'=>'این کد ملی قبلا ثبت شده است'];
+            return['ok'=>false, 'cmessage'=>'این کد ملی قبلا ثبت شده است'];
         }
 
         if(User::where('mobile', $mobile)->exists()){
-            return['ok'=>false, 'message'=>'این شماره همراه قبلا استفاده شده است'];
+            return['ok'=>false, 'cmessage'=>'این شماره همراه قبلا استفاده شده است'];
         }
 
         $captcha_result = Captcha::confirm($captcha, Http::ip());
@@ -64,7 +64,7 @@ class UserController
         $user->token = bin2hex(random_bytes(32));
         $user->save();
 
-        Sms::sendConfrimMessage('09193681670');
+        // Sms::sendConfrimMessage($mobile);
 
         return ['ok'=>true, 'user_id'=>$user->id];
     }
@@ -94,7 +94,7 @@ class UserController
             }
         }
 
-        return['ok'=>true, 'result'=>$result, 'login'=>$login, 'auth_token'=>$auth_token];
+        return['ok'=>true, 'result'=>$result ,'user'=>$user??false, 'login'=>$login, 'auth_token'=>$auth_token];
     }
 
 

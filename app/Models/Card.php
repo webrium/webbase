@@ -17,6 +17,8 @@ class Card extends Model{
     $table = new Schema($this->table);
     $table->integer('user_id');
     $table->integer('product_id');
+    $table->integer('inventory_id');
+    $table->integer('amount')->default(0);
     $table->timestamps();
     $table->create();
   }

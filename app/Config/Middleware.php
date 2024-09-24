@@ -53,7 +53,7 @@ function checkUserAuth(){
     $result = User::checkAuth();
     
     if($result == false){
-        App::ReturnData(['ok'=>false, 'message'=>'pleas auth']);
+        App::ReturnData(['ok'=>false, 'login_required'=>true, 'message'=>'لطفا ابتدا وارد حساب کاربری خود شوید']);
         die;
     }
     return $result;

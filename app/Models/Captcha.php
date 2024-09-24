@@ -35,8 +35,8 @@ class Captcha extends Model
 
   public static function permissionToCreateCaptcha($captcha)
   {
-    if (time() - $captcha->last_created_datetime < 60 && $captcha->edit_number >= 5 && $captcha->confirm == false) {
-      return ['ok' => false, 'message' => 'Try again in 60 seconds', 'diff' => time() - $captcha->last_created_datetime];
+    if (time() - $captcha->last_created_datetime < 60 && $captcha->edit_number >= 8 && $captcha->confirm == false) {
+      return ['ok' => false, 'cmessage' => 'Try again in 60 seconds', 'diff' => time() - $captcha->last_created_datetime];
     }
 
     return ['ok' => true];
@@ -98,7 +98,7 @@ class Captcha extends Model
     if ($captcha && $captcha->phrase === strtolower($phrase)) {
 
       if (time() - $captcha->last_created_datetime > 60 * 4) {
-        return ['ok' => false, 'message' => 'Captcha code has expired', 'reload_captcha' => true];
+        return ['ok' => false, 'cmessage' => 'Captcha code has expired', 'reload_captcha' => true];
       }
 
       $captcha->confirm = true;
@@ -108,7 +108,7 @@ class Captcha extends Model
       return ['ok' => true, 'captcha' => $captcha];
     }
 
-    return ['ok' => false, 'message' => 'Captcha code is not correct', 'reload_captcha' => false];
+    return ['ok' => false, 'cmessage' => 'Captcha code is not correct', 'reload_captcha' => false];
   }
 
 
