@@ -37,4 +37,12 @@ class ProductController
     }
 
 
+
+    public function productList(){
+        $products = Product::listForHomePage();
+
+        return['ok'=>true, 'list'=>$products];
+    }
+
+
 }

@@ -15,6 +15,7 @@ Route::group('captcha', function(){
 
 Route::group('product', function(){
     Route::get('info', 'User/ProductController->productInfo');
+    Route::get('list', 'User/ProductController->productList');
 });
 
 Route::group('auth', function(){

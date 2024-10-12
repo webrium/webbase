@@ -53,6 +53,21 @@ class Product extends Model
   }
 
 
+  public static function activeList(){
+    return self::is('active')->get();
+  }
+
+
+  public static function listForHomePage(){
+    $new = self::is('active')->latest()->get();
+    foreach($new as $product){
+      File::makeImageUrlField($product);
+    }
+    
+    return['new'=>$new];
+  }
+
+
 
 
 
